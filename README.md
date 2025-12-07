@@ -88,9 +88,9 @@ which is **≈ 60–100 tokens** total (input + output).
 
 ---
 
-# 📘 1) Cost *per message*
+### 📘 1) Cost *per message*
 
-### 🔹 Cost per pass (1 AI call)
+#### 🔹 Cost per pass (1 AI call)
 
 Example for a message of **80 tokens total** (input + output):
 
@@ -101,14 +101,14 @@ Copier le code
 
 So **one pass costs ≈ $0.0024** (about a quarter of a cent).
 
-### 🔹 1-pass mode (safety only)
+#### 🔹 1-pass mode (safety only)
 
 cost_per_message_1pass ≈ $0.0024
 
 shell
 Copier le code
 
-### 🔹 2-pass mode (safety + off-topic)
+#### 🔹 2-pass mode (safety + off-topic)
 
 cost_per_message_2pass = 2 × $0.0024 = $0.0048
 
@@ -117,7 +117,7 @@ Copier le code
 
 ---
 
-# 📗 2) Cost for 1,000 / 10,000 / 100,000 messages
+### 📗 2) Cost for 1,000 / 10,000 / 100,000 messages
 
 Using the cost per message above:
 
@@ -129,7 +129,7 @@ Using the cost per message above:
 
 ---
 
-# 📙 Summary (practical interpretation)
+### 📙 Summary (practical interpretation)
 
 - A **small forum** (1,000 msgs/month) costs  
   **$2–5 per month** depending on your settings.
@@ -138,13 +138,11 @@ Using the cost per message above:
 - A **large forum** (100,000 msgs/month) costs  
   **$200–500 per month**.
 
-### ✔ Costs remain low *unless you have high traffic*.  
-### ✔ Off-topic detection (2-pass) simply doubles the price.  
-### ✔ Anyone can recalculate using:  
-(tokens_per_message / 1000) × 0.03 × number_of_passes × number_of_messages
+#### ✔ Costs remain low *unless you have high traffic*.  
+#### ✔ Off-topic detection (2-pass) simply doubles the price.  
+#### ✔ Anyone can recalculate using:  
 
-yaml
-Copier le code
+(tokens_per_message / 1000) × 0.03 × number_of_passes × number_of_messages
 
 ---
 
