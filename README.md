@@ -112,9 +112,6 @@ Copier le code
 
 cost_per_message_2pass = 2 × $0.0024 = $0.0048
 
-yaml
-Copier le code
-
 ---
 
 ### 📗 2) Cost for 1,000 / 10,000 / 100,000 messages
