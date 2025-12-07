@@ -1,0 +1,22 @@
+{
+  "name": "sylebel/aimod",
+  "type": "phpbb-extension",
+  "version": "1.0.1",
+  "description": "AI-based moderation for phpBB using OpenAI models",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Sylvain Lebel",
+      "email": "your-email@example.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.4"
+  },
+  "extra": {
+    "display-name": "AI Moderation",
+    "soft-require": {
+      "phpbb/phpbb": ">=3.3.0"
+    }
+  }
+}
