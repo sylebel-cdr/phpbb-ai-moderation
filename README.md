@@ -67,23 +67,89 @@ Moderation happens **before database insert**, keeping your forum clean.
 
 ---
 
-## 💲 Estimated Cost of Use
+## 💲 Estimated Cost of Use (with full calculation)
 
-The extension is extremely inexpensive to run.
+The extension itself is free.  
+Your only cost comes from the OpenAI API.
 
-### Example with default model: `gpt-4.1-mini`
-Average message size: **300–500 characters**  
-OpenAI cost (input + output): **≈ $0.003 per 1,000 messages**
+It can operate in two modes:
 
-| Messages / month | Approx. cost |
-|------------------|--------------|
-| 1,000            | ~$0.003      |
-| 10,000           | ~$0.03       |
-| 100,000          | ~$0.30       |
+- **Base mode** → 1 AI request per message (safety moderation)  
+- **Extended mode** → 2 AI requests per message (safety + off-topic)
 
-Even a large forum typically stays under **$1 USD per month**.
+Below is an exact breakdown using the real OpenAI pricing for  
+**gpt-4.1-mini** (January 2025):
 
-Costs increase only if you choose more advanced models (e.g. `gpt-4.1` or `gpt-o3`).
+- **$0.03 per 1,000 input tokens**  
+- **$0.06 per 1,000 output tokens**
+
+Typical phpBB messages are short: **300–500 characters**,  
+which is **≈ 60–100 tokens** total (input + output).
+
+---
+
+# 📘 1) Cost *per message*
+
+### 🔹 Cost per pass (1 AI call)
+
+Example for a message of **80 tokens total** (input + output):
+
+80 tokens × $0.03 / 1,000 tokens = $0.0024
+
+pgsql
+Copier le code
+
+So **one pass costs ≈ $0.0024** (about a quarter of a cent).
+
+### 🔹 1-pass mode (safety only)
+
+cost_per_message_1pass ≈ $0.0024
+
+shell
+Copier le code
+
+### 🔹 2-pass mode (safety + off-topic)
+
+cost_per_message_2pass = 2 × $0.0024 = $0.0048
+
+yaml
+Copier le code
+
+---
+
+# 📗 2) Cost for 1,000 / 10,000 / 100,000 messages
+
+Using the cost per message above:
+
+| Messages per month | Cost (1 pass)     | Cost (2 passes)   |
+|--------------------|-------------------|-------------------|
+| 1,000              | 1,000 × $0.0024 = **$2.40** | 1,000 × $0.0048 = **$4.80** |
+| 10,000             | **$24.00**        | **$48.00**        |
+| 100,000            | **$240.00**       | **$480.00**       |
+
+---
+
+# 📙 Summary (practical interpretation)
+
+- A **small forum** (1,000 msgs/month) costs  
+  **$2–5 per month** depending on your settings.
+- A **medium forum** (10,000 msgs/month) costs  
+  **$20–50 per month**.
+- A **large forum** (100,000 msgs/month) costs  
+  **$200–500 per month**.
+
+### ✔ Costs remain low *unless you have high traffic*.  
+### ✔ Off-topic detection (2-pass) simply doubles the price.  
+### ✔ Anyone can recalculate using:  
+(tokens_per_message / 1000) × 0.03 × number_of_passes × number_of_messages
+
+yaml
+Copier le code
+
+---
+
+> To update these estimates, simply plug in your own values  
+> for tokens per message and the latest OpenAI pricing.
 
 ---
 
