@@ -1,0 +1,28 @@
+{
+    "name": "sylebel/aimod",
+    "type": "phpbb-extension",
+    "description": "AI Moderation (OpenAI) for phpBB",
+    "version": "1.2.2",
+    "time": "2025-12-05",
+    "license": "GPL-2.0",
+    "authors": [
+        {
+            "name": "Sylvain Lebel",
+            "homepage": "https://sylebel.net"
+        },
+        {
+            "name": "ChatGPT (OpenAI GPT-5.1 Thinking)",
+            "homepage": "https://chat.openai.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "phpbb/phpbb": ">=3.3.0"
+    },
+    "extra": {
+        "display-name": "AI Moderation (OpenAI)",
+        "soft-require": {
+            "phpbb/phpbb": "3.3.*"
+        }
+    }
+}

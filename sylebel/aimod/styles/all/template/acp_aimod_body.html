@@ -1,0 +1,111 @@
+<!-- INCLUDE overall_header.html -->
+
+<h1>{L_AIMOD_ACP_TITLE}</h1>
+<p>{L_AIMOD_ACP_SETTINGS_EXPLAIN}</p>
+
+<form id="acp_aimod" method="post" action="{U_ACTION}">
+    <fieldset>
+        <legend>{L_AIMOD_ACP_SETTINGS}</legend>
+
+        <!-- API KEY -->
+        <dl>
+            <dt>
+                <label for="aimod_api_key">{L_AIMOD_API_KEY}:</label><br />
+                <span>{L_AIMOD_API_KEY_EXPLAIN}</span>
+            </dt>
+            <dd>
+                <input type="text" id="aimod_api_key" name="aimod_api_key"
+                       value="{AIMOD_API_KEY}" size="80" />
+            </dd>
+        </dl>
+
+        <!-- THRESHOLD -->
+        <dl>
+            <dt>
+                <label for="aimod_threshold">{L_AIMOD_THRESHOLD}:</label><br />
+                <span>{L_AIMOD_THRESHOLD_EXPLAIN}</span>
+            </dt>
+            <dd>
+                <input type="text" id="aimod_threshold" name="aimod_threshold"
+                       value="{AIMOD_THRESHOLD}" size="10" />
+            </dd>
+        </dl>
+
+        <!-- MODEL -->
+        <dl>
+            <dt>
+                <label for="aimod_model">{L_AIMOD_MODEL}:</label><br />
+                <span>{L_AIMOD_MODEL_EXPLAIN}</span>
+            </dt>
+            <dd>
+                <input type="text" id="aimod_model" name="aimod_model"
+                       value="{AIMOD_MODEL}" size="40" />
+            </dd>
+        </dl>
+
+        <!-- OFFTOPIC MODERATION -->
+        <dl>
+            <dt>
+                <label>{L_AIMOD_ENABLE_OFFTOPIC}:</label><br />
+                <span>{L_AIMOD_ENABLE_OFFTOPIC_EXPLAIN}</span>
+            </dt>
+            <dd>
+                <label>
+                    <input type="checkbox"
+                           id="aimod_enable_offtopic"
+                           name="aimod_enable_offtopic"
+                           value="1"{AIMOD_ENABLE_OFFTOPIC_CHECKED} />
+                    {L_AIMOD_ENABLE_OFFTOPIC_LABEL}
+                </label>
+            </dd>
+        </dl>
+
+        <!-- CUSTOM PROMPT -->
+        <dl>
+            <dt>
+                <label for="aimod_prompt">{L_AIMOD_PROMPT}:</label><br />
+                <span>{L_AIMOD_PROMPT_EXPLAIN}</span>
+            </dt>
+            <dd>
+                <textarea id="aimod_prompt" name="aimod_prompt"
+                          rows="14" cols="80">{AIMOD_PROMPT}</textarea>
+            </dd>
+        </dl>
+
+
+        <!-- OFF-TOPIC MODERATION TOGGLE -->
+        <dl>
+            <dt>
+                <label for="aimod_enable_offtopic">{L_AIMOD_ENABLE_OFFTOPIC}:</label><br />
+                <span>{L_AIMOD_ENABLE_OFFTOPIC_EXPLAIN}</span>
+            </dt>
+            <dd>
+                <label>
+                    <input type="checkbox" id="aimod_enable_offtopic" name="aimod_enable_offtopic" value="1"{AIMOD_ENABLE_OFFTOPIC_CHECKED} />
+                    {L_AIMOD_ENABLE_OFFTOPIC_LABEL}
+                </label>
+            </dd>
+        </dl>
+
+        <!-- OFF-TOPIC PROMPT -->
+        <dl>
+            <dt>
+                <label for="aimod_prompt_offtopic">{L_AIMOD_PROMPT_OFFTOPIC}:</label><br />
+                <span>{L_AIMOD_PROMPT_OFFTOPIC_EXPLAIN}</span>
+            </dt>
+            <dd>
+                <textarea id="aimod_prompt_offtopic" name="aimod_prompt_offtopic"
+                          rows="10" cols="80">{AIMOD_PROMPT_OFFTOPIC}</textarea>
+            </dd>
+        </dl>
+
+    </fieldset>
+
+    <fieldset class="submit-buttons">
+        <input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />
+        <input class="button2" type="submit" id="reset_defaults" name="reset_defaults" value="{L_AIMOD_RESET_DEFAULTS}" />
+        {S_FORM_TOKEN}
+    </fieldset>
+</form>
+
+<!-- INCLUDE overall_footer.html -->

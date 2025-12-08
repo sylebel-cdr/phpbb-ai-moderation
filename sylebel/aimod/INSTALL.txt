@@ -1,0 +1,54 @@
+INSTALLATION INSTRUCTIONS (English)
+================================
+
+1) Copy the extension
+---------------------
+- Upload the `sylebel/` directory to your phpBB installation, so that you have:
+  `ext/sylebel/aimod/` on the server.
+
+2) Enable the extension
+-----------------------
+- Go to the phpBB Administration Control Panel (ACP).
+- Open the “Customise” tab, then “Manage extensions”.
+- Locate **AI Moderation (OpenAI)** (vendor: `sylebel/aimod`) and click “Enable”.
+
+3) Create the ACP module
+------------------------
+phpBB does not automatically add the configuration page to the ACP menu.
+You must create the module once:
+
+- In the ACP, go to the “System” tab, then “Administration Control Panel”.
+- In the left column, choose the category associated with `ACP_CAT_DOT_MODS`
+  (often called “Extensions” or similar).
+- Click “Add module”.
+- In the drop-down list, select:
+    `sylebel\aimod\acp\main_module`  (title: AIMOD_ACP_TITLE)
+- Confirm creation, then click “Enable” for this module.
+
+Once enabled, a new entry such as **AI Moderation** / **AI moderation settings**
+will appear in the ACP menu.
+
+4) Configure AI moderation
+--------------------------
+- Open the new AI Moderation page in the ACP.
+- Enter your **OpenAI API key**.
+- Choose the **model** (for example: `gpt-4.1-mini`).
+- Set the **detection threshold** between 0 and 1 (0.3–0.7 is a good starting point).
+- Optionally tick the box to enable **off-topic moderation**.
+- Save your changes.
+
+5) Test
+-------
+- Create a test user and post various messages:
+  * clear insults or harassment,
+  * hate or praise of genocidal regimes,
+  * obvious spam, commercial offers or scams,
+  * clearly off-topic content in a specific section.
+- Check that the AI blocks or allows messages according to your settings.
+
+6) Uninstall
+------------
+- In the ACP, “Customise” → “Manage extensions”.
+- Disable the extension **AI Moderation (OpenAI)**.
+- (Optional) Click “Delete data” if you want to remove config values from the DB.
+- Remove the `ext/sylebel/aimod/` directory from the server.

@@ -1,0 +1,8 @@
+services:
+    sylebel.aimod.listener:
+        class: sylebel\aimod\event\listener
+        arguments:
+            - '@config'
+            - '@user'
+        tags:
+            - { name: event.listener }

@@ -1,0 +1,22 @@
+.aimod-spinner {
+    display: flex;
+    align-items: center;
+    gap: 0.35em;
+    font-size: 0.9em;
+    margin: 4px 0;
+    color: #28c76f;              /* vert visible clair & sombre */
+}
+
+.aimod-spinner-icon {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid #28c76f;
+    border-top-color: transparent;
+    animation: aimod-spin 0.8s linear infinite;
+}
+
+@keyframes aimod-spin {
+    to { transform: rotate(360deg); }
+}
+

@@ -1,0 +1,54 @@
+INSTRUCTIONS D’INSTALLATION (Français)
+===================================
+
+1) Copier l’extension
+---------------------
+- Téléversez le répertoire `sylebel/` dans votre installation phpBB, de sorte à obtenir :
+  `ext/sylebel/aimod/` sur le serveur.
+
+2) Activer l’extension
+----------------------
+- Allez dans le Panneau de Contrôle d’Administration (PCA).
+- Onglet « Personnaliser », puis « Gérer les extensions ».
+- Repérez **AI Moderation (OpenAI)** (fournisseur : `sylebel/aimod`) et cliquez sur « Activer ».
+
+3) Créer le module dans le PCA
+------------------------------
+phpBB n’ajoute pas automatiquement la page de configuration dans le menu du PCA.
+Vous devez créer le module une fois :
+
+- Dans le PCA, onglet « Système » → « Panneau de contrôle d’administration ».
+- Dans la colonne de gauche, sélectionnez la catégorie associée à `ACP_CAT_DOT_MODS`
+  (souvent intitulée « Extensions », « MODs », etc.).
+- Cliquez sur « Ajouter un module ».
+- Dans la liste déroulante, sélectionnez :
+    `sylebel\aimod\acp\main_module`  (titre : AIMOD_ACP_TITLE)
+- Validez la création, puis cliquez sur « Activer » pour ce module.
+
+Une nouvelle entrée du type **Modération IA** / **Paramètres de la modération IA**
+apparaîtra alors dans le menu du PCA.
+
+4) Configurer la modération IA
+------------------------------
+- Ouvrez la nouvelle page « Modération IA » dans le PCA.
+- Saisissez votre **clé API OpenAI**.
+- Choisissez le **modèle** (par ex. `gpt-4.1-mini`).
+- Réglez le **seuil de détection** entre 0 et 1 (0.3–0.7 est une bonne base).
+- Cochez éventuellement la case de **modération des hors-sujet**.
+- Enregistrez vos modifications.
+
+5) Tests
+--------
+- Créez un utilisateur de test et publiez différents messages :
+  * insultes ou harcèlement clair,
+  * propos haineux ou éloges de régimes génocidaires,
+  * spam, offres commerciales ou tentatives de fraude évidentes,
+  * contenus manifestement hors sujet dans une section spécifique.
+- Vérifiez que l’IA bloque ou autorise les messages conformément à vos paramètres.
+
+6) Désinstallation
+------------------
+- Dans le PCA : « Personnaliser » → « Gérer les extensions ».
+- Désactivez l’extension **AI Moderation (OpenAI)**.
+- (Optionnel) Cliquez sur « Supprimer les données » pour enlever les paramètres de la base.
+- Supprimez le répertoire `ext/sylebel/aimod/` du serveur.

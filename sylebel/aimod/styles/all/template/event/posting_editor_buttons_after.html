@@ -1,0 +1,73 @@
+<span id="aimod_spinner_label" style="display:none;">{L_AIMOD_SPINNER_TEXT}</span>
+
+<div id="aimod_spinner_top" class="aimod-spinner" style="display:none;">
+    <span class="aimod-spinner-icon"></span>
+    <span class="aimod-spinner-text"></span>
+</div>
+
+<style>
+.aimod-spinner {
+    display: none;
+    align-items: center;
+    gap: 0.4em;
+    margin: 4px 0;
+    font-size: 0.9em;
+    color: #22AA22;
+}
+
+.aimod-spinner-icon {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid currentColor;
+    border-top-color: transparent;
+    display: inline-block;
+    vertical-align: middle;
+    animation: aimod-spin 0.8s linear infinite;
+}
+
+@keyframes aimod-spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var form = document.getElementById('postform');
+    if (!form) {
+        return;
+    }
+
+    var spinnerTop    = document.getElementById('aimod_spinner_top');
+    var spinnerBottom = document.getElementById('aimod_spinner_bottom');
+    var labelNode     = document.getElementById('aimod_spinner_label');
+
+    // Propager le texte localisé dans les spinners
+    var labelText = labelNode ? labelNode.textContent || labelNode.innerText : '';
+    if (spinnerTop) {
+        var t = spinnerTop.querySelector('.aimod-spinner-text');
+        if (t) { t.textContent = labelText; }
+    }
+    if (spinnerBottom) {
+        var t2 = spinnerBottom.querySelector('.aimod-spinner-text');
+        if (t2) { t2.textContent = labelText; }
+    }
+
+    var alreadyShown = false;
+
+    form.addEventListener('submit', function () {
+        if (alreadyShown) {
+            return;
+        }
+        alreadyShown = true;
+
+        if (spinnerTop) {
+            spinnerTop.style.display = 'flex';
+        }
+        if (spinnerBottom) {
+            spinnerBottom.style.display = 'flex';
+        }
+    });
+});
+</script>

@@ -1,0 +1,196 @@
+<?php
+namespace sylebel\aimod\event;
+
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+class listener implements EventSubscriberInterface
+{
+    /** @var \phpbb\config\config */
+    protected $config;
+
+    public function __construct(\phpbb\config\config $config)
+    {
+        $this->config = $config;
+    }
+
+    /**
+     * Événements écoutés par cette extension.
+     */
+    static public function getSubscribedEvents()
+    {
+        return array(
+            // Événement utilisé pour ajouter des erreurs de validation
+            'core.posting_modify_submission_errors' => 'on_posting_modify_submission_errors',
+        );
+    }
+
+    /**
+     * Modération IA : si le message est jugé problématique, on ajoute une erreur
+     * dans $event['error'], ce qui BLOQUE la soumission.
+     */
+    public function on_posting_modify_submission_errors($event)
+    {
+        $submit = !empty($event['submit']);
+        $mode   = isset($event['mode']) ? $event['mode'] : null;
+
+        // On ne traite que les vraies soumissions classiques
+        if (!$submit || !in_array($mode, array('post', 'reply', 'quote', 'edit'), true))
+        {
+            return;
+        }
+
+        // Récupérer le texte du message à partir des données de post
+        $data = isset($event['data']) ? $event['data'] : array();
+
+        $text = '';
+        if (isset($data['message']))
+        {
+            $text = (string) $data['message'];
+        }
+        elseif (isset($data['post_text']))
+        {
+            $text = (string) $data['post_text'];
+        }
+
+        $text_trim = trim($text);
+        if ($text_trim === '')
+        {
+            return;
+        }
+
+        // Clé API depuis l’ACP
+        $api_key = trim(isset($this->config['aimod_api_key']) ? $this->config['aimod_api_key'] : '');
+        if ($api_key === '')
+        {
+            // Pas de clé → on ne modère pas
+            return;
+        }
+
+        // Seuil depuis l’ACP (0–1)
+        $threshold = isset($this->config['aimod_threshold'])
+            ? (float) $this->config['aimod_threshold']
+            : 0.5;
+
+        if ($threshold <= 0.0 || $threshold > 1.0)
+        {
+            $threshold = 0.5;
+        }
+
+        // Appel de modération
+        $result = $this->call_openai_moderation($api_key, $text_trim);
+
+        // En cas d’erreur réseau / parsing → ne pas bloquer
+        if ($result === null)
+        {
+            return;
+        }
+
+        $flagged   = $result['flagged'];
+        $max_score = $result['score'];
+
+        // Règle de décision :
+        // - si flagged = true → on bloque, peu importe le seuil
+        // - sinon, on compare max_score au seuil
+        $should_block = $flagged || ($max_score >= $threshold);
+
+        if (!$should_block)
+        {
+            return; // message autorisé
+        }
+
+        // Récupérer les erreurs existantes
+        $errors = isset($event['error']) ? $event['error'] : array();
+        if (!is_array($errors))
+        {
+            $errors = array($errors);
+        }
+
+        // Message d’erreur simple (on pourra le passer en langue plus tard)
+        $errors[] = sprintf(
+            'Message bloqué par la modération automatique (score %.2f, seuil %.2f).',
+            $max_score,
+            $threshold
+        );
+
+        // IMPORTANT : assigner à nouveau dans l’event
+        $event['error'] = $errors;
+    }
+
+    /**
+     * Appelle l’API OpenAI /moderations et renvoie :
+     * - array('flagged' => bool, 'score' => float) si ok
+     * - null en cas d’erreur.
+     */
+    protected function call_openai_moderation($api_key, $text)
+    {
+        $url  = 'https://api.openai.com/v1/moderations';
+        $body = json_encode(array(
+            'model' => 'omni-moderation-latest',
+            'input' => $text,
+        ));
+
+        if ($body === false)
+        {
+            return null;
+        }
+
+        $ch = curl_init($url);
+        if ($ch === false)
+        {
+            return null;
+        }
+
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json',
+            'Authorization: ' . 'Bearer ' . $api_key,
+        ));
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+
+        $response = curl_exec($ch);
+        if ($response === false)
+        {
+            curl_close($ch);
+            return null;
+        }
+
+        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        if ($http_code < 200 || $http_code >= 300)
+        {
+            return null;
+        }
+
+        $decoded = json_decode($response, true);
+        if (!is_array($decoded) || !isset($decoded['results'][0]))
+        {
+            return null;
+        }
+
+        $result = $decoded['results'][0];
+
+        $flagged = !empty($result['flagged']);
+
+        $scores = isset($result['category_scores']) && is_array($result['category_scores'])
+            ? $result['category_scores']
+            : array();
+
+        $max_score = 0.0;
+        foreach ($scores as $value)
+        {
+            $v = (float) $value;
+            if ($v > $max_score)
+            {
+                $max_score = $v;
+            }
+        }
+
+        return array(
+            'flagged' => $flagged,
+            'score'   => $max_score,
+        );
+    }
+}

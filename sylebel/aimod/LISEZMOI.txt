@@ -1,0 +1,41 @@
+Modération IA (OpenAI) pour phpBB
+=================================
+
+Auteurs
+-------
+- Sylvain Lebel — auteur principal (https://sylebel.net)
+- ChatGPT (OpenAI GPT-5.1 Thinking) — co-auteur pour la logique IA et l’intégration
+
+Résumé
+------
+Cette extension connecte phpBB à OpenAI pour effectuer une **modération automatique**
+des messages *avant* leur publication. L’IA peut :
+
+- bloquer les insultes, le harcèlement et les propos haineux ou violents ;
+- bloquer l’apologie ou la négation de régimes génocidaires ou extrémistes ;
+- bloquer le spam, la fraude et la publicité commerciale sans rapport avec le forum ;
+- optionnellement, bloquer les messages manifestement hors sujet pour la section courante.
+
+Quand un message est bloqué, l’auteur voit une explication détaillée et un court
+extrait du texte problématique afin de pouvoir corriger le message et le renvoyer.
+
+Utilisation de base
+-------------------
+1. Installez et activez l’extension (voir INSTALL-FR.txt).
+2. Dans le PCA, ouvrez la page de configuration « Modération IA ».
+3. Entrez votre clé API OpenAI, choisissez un modèle (par ex. `gpt-4.1-mini`)
+   et ajustez le seuil de détection (0–1, valeurs typiques : 0.3–0.7).
+4. Activez éventuellement la modération des hors-sujet.
+5. Faites quelques tests de publication pour vérifier que le comportement
+   de blocage correspond à votre politique.
+
+Coût
+----
+Le coût dépend du modèle OpenAI choisi et du volume de texte analysé.
+Avec un modèle léger comme `gpt-4.1-mini`, le coût pour 1 000 messages courts
+reste généralement **très faible** (une fraction de dollar US), mais pensez à
+vérifier les tarifs à jour dans votre compte OpenAI.
+
+Licence
+-------
+Cette extension est publiée sous licence GPL-2.0.
