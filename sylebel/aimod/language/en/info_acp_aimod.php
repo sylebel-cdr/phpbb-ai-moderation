@@ -1,6 +1,6 @@
 <?php
 /**
-* EN language file – info_acp – Extension sylebel/aimod
+* English language file – info_acp – Extension sylebel/aimod
 */
 
 if (!defined('IN_PHPBB'))
@@ -15,10 +15,14 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 
-    // Module name in the ACP menu
+    // Name of the module in the ACP menu
     'ACP_AIMOD_TITLE'    => 'AI Moderation',
     'ACP_AIMOD'          => 'AI Moderation',
 
-    // Optional description
-    'ACP_AIMOD_SETTINGS' => 'AI Moderation settings',
+    // Description of the settings (rarely displayed in phpBB)
+    'ACP_AIMOD_SETTINGS' => 'AI Moderation Settings',
+
+    // ✅ Alias required by phpBB for the left menu entry
+    'AIMOD_ACP_SETTINGS' => 'AI Moderation Settings',
 ));
+
