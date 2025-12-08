@@ -21,4 +21,7 @@ $lang = array_merge($lang, array(
 
     // Description éventuelle (peu utilisée dans l’interface)
     'ACP_AIMOD_SETTINGS' => 'Paramètres de la modération IA',
+
+    // ✅ Alias pour le module qui attend AIMOD_ACP_SETTINGS
+    'AIMOD_ACP_SETTINGS' => 'Paramètres de la modération IA',
 ));
